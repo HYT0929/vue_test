@@ -1,7 +1,7 @@
 <template>
   <div class="rightBox">
     <!-- 用户管理列表 -->
-    <el-table :data="userList">
+    <el-table>
       <el-table-column type="selection" width="40" align="center" />
       <el-table-column label="姓名" align="center" prop="userName" />
       <el-table-column label="性别" align="center" prop="sex" />
@@ -12,12 +12,7 @@
       <el-table-column label="是否有咳嗽、腹泻、头疼等症状" align="center" prop="symptom" />
     </el-table>
     <!-- 分页组件 -->
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-    />
+
   </div>
 </template>
 
@@ -28,7 +23,7 @@ export default {
   data () {
     return {
       // 用户表格数据
-      userList: null,
+      // userList: null,
       // 总条数
       total: 0,
       // 查询参数
@@ -46,20 +41,6 @@ export default {
   },
   components: {},
   methods: {
-    // /** 查询用户列表 */
-    // getList () {
-    //   // addDateRange 方法在 main.js中全局挂载
-    //   listUser(this.addDateRange(this.queryParams, this.dateRange)).then(
-    //     response => {
-    //       this.userList = response.rows
-    //       this.total = response.total
-    //       // this.loading = false;
-    //     }
-    //   )
-    // }
-  },
-  created () {
-    this.getList()
   }
 }
 

@@ -18,21 +18,30 @@ import axios from 'axios'
 
 export default {
   name: 'v-RegisterBody',
+  data () {
+    return {
+      name: this.name,
+      pwd: this.pwd
+    }
+  },
   methods: {
     handle () {
       //  路径/home对应我在router目录下index.js中定义的path属性值
       // this.$router.push('/manage')
-      axios.post('http://127.0.0.1:30000' + '/login')
+      const that = this
+      axios.post('/api' + '/admin/login', {name: this.name, pwd: this.pwd})
         .then(function (response) {
           // handle success
           console.log(response)
+          if (response.data.code === 1) {
+            that.$router.push({path: '/manage'})
+          } else {
+            alert(response.data.msg)
+          }
         })
         .catch(function (error) {
         // handle error
           console.log(error)
-        })
-        .then(function () {
-          // always executed
         })
     }
   }
