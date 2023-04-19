@@ -7,7 +7,7 @@
     <ul>
       <li @click="show(1)" :class="index===1? 'active':''">用户信息</li>
       <li @click="show(2)" :class="index===1? 'active':''">健康上报</li>
-      <li @click="show(3)" :class="index===1? 'active':''">健康码管理</li>
+      <li @click="show(3)" :class="index===1? 'active':''">申请审核</li>
       <li @click="show(4)" :class="index===1? 'active':''">疫情公告</li>
       <li @click="show(5)" :class="index===1? 'active':''">物资信息</li>
     </ul>
@@ -25,7 +25,7 @@
 <script >
 import One from '../user/userInfo.vue'
 import Two from '../user/healthReport.vue'
-import Three from '../user/healthCode.vue'
+import Three from '../user/healthCheck.vue'
 import Four from '../user/notice.vue'
 import Five from '../user/goods.vue'
 
@@ -59,9 +59,7 @@ export default {
       if (value === 1) this.comp = 'One'
       if (value === 2) this.comp = 'Two'
       if (value === 3) this.comp = 'Three'
-      if (value === 4) {
-        this.comp = 'Four'
-      }
+      if (value === 4) this.comp = 'Four'
       if (value === 5) this.comp = 'Five'
     }
   }
@@ -71,7 +69,7 @@ export default {
 <style>
 .nav {
   float: left;
-  height: 630px;
+  height: auto;
   width: 10%;
   background-color: #2b4ba4;
 }

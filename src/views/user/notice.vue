@@ -1,20 +1,25 @@
 <template>
   <div class="rightBox">
     <div class="noticeTop">
-        <button class="addBtn" type="primary" @click="addItem">新增</button>
+        <button class="addBtn" type="primary" @click="addItem()">新增</button>
+        <div class="rightBtn">
+          <input class="searchBox" type="text" name="" id="" placeholder="请输入公告标题" v-model="searchKeyword"/>
+          <button class="addBtn" type="primary" @click="searchBtn()">搜索</button>
+          <button class="addBtn" type="primary" @click="getNoticeInfo()">重置</button>
+        </div>
     </div>
     <!-- 用户管理列表 -->
     <el-table :data="tableData">
       <!-- id就直接这样写了 -->
-      <el-table-column label="序号" prop="id" type="index" sortable="custom" align="center"/>
+      <el-table-column label="序号"  type="index" sortable="custom" align="center"/>
       <el-table-column label="标题" align="center" prop="title" />
-      <el-table-column label="内容" align="center" prop="content" />
+      <el-table-column label="内容" align="center" prop="content" :formatter="stateFormat" />
       <el-table-column label="发布时间" align="center" prop="date" />
       <el-table-column label="发布人" align="center" prop="userName" />
       <el-table-column label="操作" align="center" prop="compile">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click.native.prevent="editRow(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button type="text" size="middle" @click.native.prevent="editRow(scope.row)">编辑</el-button>
+          <el-button type="text" size="middle" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,7 +67,10 @@ export default {
       // 删除提示弹框的状态
       delVisible: false,
       // 存放删除的数据
-      delId: 0
+      delId: 0,
+      // 搜索关键字
+      searchKeyword: '',
+      searchData: ''
     }
   },
   components: {
@@ -74,7 +82,26 @@ export default {
   methods: {
     getNoticeInfo () {
       const that = this
-      axios.post('/api' + 'news/getList')
+      this.searchKeyword = ''
+      axios.post('/api' + '/news/getList')
+        .then(function (response) {
+          // handle success
+          if (response.data.code === 1) {
+            that.tableData = response.data.data
+            // 注意这里，后台返回的json格式不一样写的就不一样
+          } else {
+            this.$message.error(response.data.msg)
+          }
+        })
+        .catch(function (error) {
+          this.$message.error(error)
+        })
+    },
+    // 搜索框
+    searchBtn () {
+      var searchKeyword = this.searchKeyword
+      const that = this
+      axios.post('/api' + '/news/searchRecord', {title: searchKeyword})
         .then(function (response) {
           // handle success
           if (response.data.code === 1) {
@@ -138,6 +165,8 @@ export default {
             if (response.data.code === 1) {
               this.$message.success('保存成功')
               this.closeDialog(1)
+            } else {
+              this.$message.error(response.data.msg)
             }
           }).catch(err => {
             this.$message.err(err)
@@ -163,7 +192,7 @@ export default {
     },
     // 确定删除
     deleteRow () {
-      axios.post('/api' + 'news/deleteRecord', {
+      axios.post('/api' + '/news/deleteRecord', {
         id: this.tableItem.id
       }).then(res => {
         if (res.data.code === 1) {
@@ -178,6 +207,16 @@ export default {
       })
       // 关闭删除提示模态框
       this.delVisible = false
+    },
+    // 格式化表格消息内容
+    stateFormat (row, column, cellValue) {
+      // console.log(row , column , cellValue)
+      if (!cellValue) return ''
+      if (cellValue.length > 10) {
+        // 最长固定显示10个字符
+        return cellValue.slice(0, 10) + '...'
+      }
+      return cellValue
     }
   }
 }
@@ -194,9 +233,17 @@ export default {
     float: left;
     left: 20%;
     margin-left: 10px;
-    height: 80px;
+    height: 50px;
+    width: 98%;
 }
-
+.rightBtn{
+  float: right;
+}
+.searchBox{
+  width: 200px;
+  height: 25px;
+  border: solid 2px #6699CC;
+}
 .addBtn{
     margin-top: 10px;
     height: 30px;
