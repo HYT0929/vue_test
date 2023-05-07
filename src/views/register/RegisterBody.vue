@@ -1,11 +1,11 @@
 <template>
   <div id="login">
     <div class="circle">
-      <img src="../../assets/userpic1.png" alt="" />
+      <img src="../../assets/userpic1.png" alt=""/>
     </div>
     <div id="inputBox1">
-      <input class="loginBox" v-model="name" placeholder="Username" />
-      <input class="loginBox" v-model="pwd" placeholder="Password" />
+      <input class="loginBox" v-model="phone" placeholder="请输入手机号码"/>
+      <input class="loginBox" v-model="pwd" type="password" placeholder="请输入密码"/>
     </div>
     <div>
       <button id="loginBtn" @click="handle()">Login</button>
@@ -18,30 +18,37 @@ import axios from 'axios'
 
 export default {
   name: 'v-RegisterBody',
-  data () {
+  data() {
     return {
-      name: this.name,
+      phone: this.phone,
       pwd: this.pwd
     }
   },
+  mounted() {
+    console.log(this.$LocalStorage.GetUserInfo())
+    if (this.$LocalStorage.GetUserInfo()) {
+      this.$router.push({path: '/manage'})
+    }
+  },
   methods: {
-    handle () {
+    handle() {
       //  路径/home对应我在router目录下index.js中定义的path属性值
       // this.$router.push('/manage')
       const that = this
-      axios.post('/api' + '/admin/login', {name: this.name, pwd: this.pwd})
+      axios.post('/api' + '/user/adminLogin', {phone: this.phone, pwd: this.pwd})
         .then(function (response) {
           // handle success
-          console.log(response)
           if (response.data.code === 1) {
+            that.$LocalStorage.CookiesPut('userInfo', response.data.data)
+            that.$message.success('登录成功')
             that.$router.push({path: '/manage'})
           } else {
-            alert(response.data.msg)
+            that.$message.error(response.data.msg)
           }
         })
         .catch(function (error) {
-        // handle error
-          console.log(error)
+          // handle error
+          that.$message.error(error)
         })
     }
   }
@@ -57,10 +64,12 @@ export default {
   border-radius: 50%;
   overflow: hidden;
 }
+
 .circle img {
   height: 150px;
   width: 150px;
 }
+
 #login {
   display: flex;
   flex-direction: column;
@@ -71,6 +80,7 @@ export default {
   /* 透明度 */
   background: rgba(0, 0, 0, 0.5);
 }
+
 #inputBox1 {
   display: flex;
   flex-direction: column;
@@ -79,6 +89,7 @@ export default {
   width: 360px;
   margin: 20px auto 0 auto;
 }
+
 .loginBox {
   margin: auto;
   height: 30px;
@@ -89,9 +100,11 @@ export default {
   border: 0;
   border-bottom: 2px solid #fff;
 }
+
 .loginBox::placeholder {
   color: #fff;
 }
+
 .loginBox:hover {
   box-shadow: 0 15px 20px -5px #00bfff;
 }
@@ -119,6 +132,7 @@ input:focus {
   border: 0;
   border-radius: 30px;
 }
+
 #loginBtn:hover {
   box-shadow: 0 0px 20px 2px #00bfff;
   font-size: 26px;

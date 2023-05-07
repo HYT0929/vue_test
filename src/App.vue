@@ -5,28 +5,32 @@
 </template>
 
 <script>
-// 引入组件
 
 export default {
   name: 'App',
-  provide () {
+  provide() {
     return {
       reload: this.reload
     }
   },
 
-  data () {
+  data() {
     return {
       isRouterAlive: true
     }
   },
 
   methods: {
-    reload () {
+    reload() {
       this.isRouterAlive = false
       this.$nextTick(function () {
         this.isRouterAlive = true
       })
+    }
+  },
+  mounted() {
+    if (!this.$LocalStorage.GetUserId) {
+      this.$router.push({path: '/'})
     }
   }
 }

@@ -6,12 +6,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import localStorage from './localStorage'
 
 Vue.use(ElementUI)
 Vue.prototype.HOST = '/api'
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-
+Vue.prototype.$LocalStorage = localStorage
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
