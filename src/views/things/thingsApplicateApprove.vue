@@ -10,7 +10,6 @@
     <!-- 用户管理列表 -->
     <el-table v-loading="loading" :data="tableInfo">
       <el-table-column label="序号" type="index" sortable="custom" align="center"/>
-      <el-table-column label="物资编号" align="center" prop="id"/>
       <el-table-column label="物资名称" align="center" prop="name"/>
       <el-table-column label="数量" align="center" prop="count"/>
       <el-table-column label="申请人" align="center" prop="applicant"/>
@@ -28,10 +27,10 @@
       </el-table-column>
       <el-table-column label="操作" align="center" prop="compile">
         <template slot-scope="scope">
-          <el-button type="primary" :disabled="scope.row.auditStatus!==0" size="middle"
+          <el-button type="primary" :disabled="scope.row.auditStatus!==0" size="small"
                      @click="approve(scope.row,true)">通过
           </el-button>
-          <el-button type="warning" :disabled="scope.row.auditStatus!==0" size="middle"
+          <el-button type="warning" :disabled="scope.row.auditStatus!==0" size="small"
                      @click="approve(scope.row,false)">拒绝
           </el-button>
         </template>

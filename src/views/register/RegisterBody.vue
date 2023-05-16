@@ -8,7 +8,7 @@
       <input class="loginBox" v-model="pwd" type="password" placeholder="请输入密码"/>
     </div>
     <div>
-      <button id="loginBtn" @click="handle()">Login</button>
+      <el-button v-loading.fullscreen.lock="fullscreenLoading" id="loginBtn" @click="handle()">Login</el-button>
     </div>
   </div>
 </template>
@@ -20,8 +20,9 @@ export default {
   name: 'v-RegisterBody',
   data() {
     return {
-      phone: this.phone,
-      pwd: this.pwd
+      phone: '',
+      pwd: '',
+      fullscreenLoading: false
     }
   },
   mounted() {
@@ -35,9 +36,11 @@ export default {
       //  路径/home对应我在router目录下index.js中定义的path属性值
       // this.$router.push('/manage')
       const that = this
+      that.fullscreenLoading = true
       axios.post('/api' + '/user/adminLogin', {phone: this.phone, pwd: this.pwd})
         .then(function (response) {
           // handle success
+          that.fullscreenLoading = false
           if (response.data.code === 1) {
             that.$LocalStorage.CookiesPut('userInfo', response.data.data)
             that.$message.success('登录成功')
@@ -48,6 +51,7 @@ export default {
         })
         .catch(function (error) {
           // handle error
+          that.fullscreenLoading = false
           that.$message.error(error)
         })
     }

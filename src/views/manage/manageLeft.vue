@@ -30,7 +30,7 @@
         <el-menu-item index="4">
           <template slot="title">
             <i class="el-icon-menu"></i>
-            <span style="font-size: 18px">疫情公告</span>
+            <span style="font-size: 18px">公告资讯</span>
           </template>
         </el-menu-item>
         <el-submenu index="5">

@@ -282,6 +282,7 @@ export default {
   left: 20%;
   margin-left: 10px;
   height: 50px;
+  width: 98%;
 }
 
 .rightBtn {
