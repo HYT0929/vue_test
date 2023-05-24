@@ -26,8 +26,8 @@
           <div v-else>其他</div>
         </el-form-item>
         <el-form-item label="亲属健康状态：" prop="relativesStatus">
-          <div v-if="formInfo.status===0">健康</div>
-          <div v-if="formInfo.status===1">确诊</div>
+          <div v-if="formInfo.relativesStatus===0">健康</div>
+          <div v-if="formInfo.relativesStatus===1">确诊</div>
         </el-form-item>
         <el-form-item label="生活是否有有困难：" prop="lifeDifficult">
           <div v-if="formInfo.lifeDifficult===0">正常</div>
