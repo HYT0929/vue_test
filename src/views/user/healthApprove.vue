@@ -89,11 +89,11 @@ export default {
             that.checkInfotable = response.data.data
             // 注意这里，后台返回的json格式不一样写的就不一样
           } else {
-            this.$message.error(response.data.msg)
+            that.$message.error(response.data.msg)
           }
         })
         .catch(function (error) {
-          this.$message.error(error)
+          that.$message.error(error)
         })
     },
     // 搜索框
@@ -107,11 +107,11 @@ export default {
             that.checkInfotable = response.data.data
             // 注意这里，后台返回的json格式不一样写的就不一样
           } else {
-            this.$message.error(response.data.msg)
+            that.$message.error(response.data.msg)
           }
         })
         .catch(function (error) {
-          this.$message.error(error)
+          that.$message.error(error)
         })
     },
     // 关闭操作
@@ -143,7 +143,7 @@ export default {
       axios.post('/api' + '/applicate/approveApply', {
         status: agree ? 0 : 1,
         id: this.currentSelectInfo.id,
-        user_id: this.$LocalStorage.GetUserId()
+        user_id: that.$LocalStorage.GetUserId()
       })
         .then(function (response) {
           // handle success

@@ -23,7 +23,7 @@
         <div style="color: red" v-if="scope.row.auditStatus===2">拒绝</div>
       </el-table-column>
       <el-table-column label="审批备注" align="center" v-slot="scope">
-        <el-button type="text" @click="showAuditMsg(scope.row.auditMsg)">查看</el-button>
+        <el-button type="text" v-if="scope.row.auditStatus!==0" @click="showAuditMsg(scope.row.auditMsg)">查看</el-button>
       </el-table-column>
       <el-table-column label="操作" align="center" prop="compile">
         <template slot-scope="scope">
